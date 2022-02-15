@@ -67,12 +67,12 @@
 @endforeach
 
 @if ($exis == 'no')
-    <div class="textis">
-        This Blog is Published <br>
+    <div class="textis alert alert-success">
+        Blog post submited for review
         <br>
-        <a href="{{url('home')}}" class="btn btn-info">Dashbord</a>
+        <br>
+        <a href="{{url('home')}}" class="btn btn-info">To Dashbord</a>
     </div>
-
 @endif
 
 <style>

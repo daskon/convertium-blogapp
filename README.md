@@ -28,3 +28,9 @@
     <li>admin@convertium.com</li>
     <li>123456789</li>
 </ul>
+
+<h3>How to test?</h3>
+ - Signup for new user account
+ - Create a new blog post
+ - Logout and Login as an administrator
+ - approve the blog post
