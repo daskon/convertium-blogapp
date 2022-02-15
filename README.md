@@ -1,11 +1,11 @@
 <h1><center><b>Blog App using Laravel 9</b></center></h1>
 
-<h3>Running Environment</h3>
+<h3>Tested Environment</h3>
 <ul type="disc">
     <li>PHP 8.0</li>
-    <li>Laravel 9</li>
     <li>MySQL 8.0</li>
     <li>Node 14.15.4</li>
+    <li>Composer 2.2.6</li>
 </ul>
 
 <h3>How to setup</h3>
@@ -21,6 +21,7 @@
     <li><code>php artisan migrate</code></li>
     <li><code>php artisan db:seed</code></li>
     <li><code>php artisan serve</code></li>
+    <li>App will run on this URL<code>http://127.0.0.1:8000</code></li>
 </ul>
 
 <h3>Admin User</h3>
@@ -30,7 +31,9 @@
 </ul>
 
 <h3>How to test?</h3>
- - Signup for new user account
- - Create a new blog post
- - Logout and Login as an administrator
- - approve the blog post
+<ul>
+    <li>Signup for new user account</li>
+    <li>Create a new blog post</li>
+    <li>Logout and Login as an administrator</li>
+    <li>approve the blog post</li>
+</ul>
