@@ -37,3 +37,15 @@
     <li>Logout and Login as an administrator</li>
     <li>approve the blog post</li>
 </ul>
+
+<h3>Blog Screens</h3>
+
+![image description](https://github.com/daskon/convertium-blogapp/blob/master/public/images/blog%20post%20screen.JPG)
+
+![image description](https://github.com/daskon/convertium-blogapp/blob/master/public/images/login.JPG)
+
+![image description](https://github.com/daskon/convertium-blogapp/blob/master/public/images/register.JPG)
+
+![image description](https://github.com/daskon/convertium-blogapp/blob/master/public/images/editor%20dashboard.JPG)
+
+![image description](https://github.com/daskon/convertium-blogapp/blob/master/public/images/admin%20dashboard.JPG)
