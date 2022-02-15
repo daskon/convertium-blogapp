@@ -19,10 +19,12 @@ class AcceptSeeder extends Seeder
             [
             'blog_id' => '1',
             'publish_date' => '2022-02-13',
+            'due_date' => '2022-02-15',
             ],
             [
-                'blog_id' => 'The secound',
+                'blog_id' => '2',
                 'publish_date' => '2022-02-13',
+                'due_date' => '2022-02-15',
             ]
 
         );

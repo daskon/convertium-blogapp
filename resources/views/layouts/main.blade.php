@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,8 +31,9 @@
 </head>
 
 <body id="page-top">
+@auth
 
-    <!-- Page Wrapper -->
+       <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -161,7 +163,7 @@
 
                 <br><br><br>
             <!-- Footer -->
-            <footer class="sticky-footer bg-white foo">
+            <footer class="bg-white foo">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; convertium 2022</span>
@@ -187,12 +189,11 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Do you like to Logout?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <form method="POST" action="{{ route('logout') }}">
@@ -209,7 +210,7 @@
     <style>
         .foo{
             position: relative;
-            top: 90vh;
+            top: 30vh;
 
         }
     </style>
@@ -240,6 +241,13 @@
     <!-- Page level custom scripts -->
     <script src="{{asset('js/demo/datatables-demo.js')}}"></script>
 
+@else
+<script type="text/javascript">
+    window.location = "{{ route('login') }}";
+</script>
+@endauth
 </body>
 
 </html>
+
+

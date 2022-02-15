@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+@auth
 
 <!-- view all users to add a edito -->
 <div class="container">
@@ -11,9 +12,9 @@
           <tr>
             <th>Action</th>
             <th></th>
-            <th>Name</th>
+            <th>Member Name</th>
             <th>Email</th>
-            <th>Possition</th>
+            <th>Privillage</th>
           </tr>
           @foreach($users as $user)
             <tr>
@@ -25,7 +26,7 @@
                 <form class="" action="{{route('editor.store')}}" method="post">
                   @csrf
                   <input type="text" name="id" value="{{$user->id}}" style="visibility: hidden;">
-                  <button type="submit" name="button" class="btn btn-info">Add Editor</button>
+                  <button type="submit" name="button" class="btn btn-info">Assign Role</button>
                 </form>
               </td>
               <!-- delete -->
@@ -33,7 +34,7 @@
                 <form method="post" action="{{route('editor.destroy',$user->id)}}">
                       @method('delete')
                       @csrf
-                      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                      <button type="submit" class="btn btn-danger btn-sm">Remove Role</button>
                   </form>
               </th>
               @endif
@@ -69,5 +70,12 @@
     visibility: hidden;
   }
 </style>
+
+@else
+<script type="text/javascript">
+    window.location = "{{ route('login') }}";
+</script>
+
+@endauth
 
 @endsection

@@ -2,9 +2,19 @@
 
 @section('content')
 
+@auth
+
 
 
 <div class="container">
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+        </div>
+
+        @endif
+
   <div class="row">
     <div class="col-sm-12">
       <h2>Create Blog</h2>
@@ -18,25 +28,34 @@
 
         <div class="mb-3 mt-3">
           <label for="title" class="form-label">Title :</label>
-          <input type="text" class="form-control" id="title" placeholder="Enter The Title" name="title">
+          <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" placeholder="Enter The Title" name="title" required>
+             @error('title')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
         <input type="text" name="editor_id" value="{{Auth::user()->id}}" style="visibility: hidden;">
         <div class="mb-3 mt-3">
           <label for="banner" class="form-label">Banner Image :</label>
-          <input type="file" class="form-control" id="image" placeholder="Select a file" name="image">
+          <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" placeholder="Select a file" name="image" required>
+          @error('image')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
         </div>
 
         <textarea name="editor" id="editor" style="visibility: hidden;"></textarea>
       </form>
 
-      <div class="mb-3 mt-3">
-        <textarea id="edi">
+      <div class="mb-3 mt-3 @error('content') is-invalid @enderror">
+        <textarea id="edi" required>
 
         </textarea>
-        <button type="button" name="button" class="btn btn-info" onclick="publishco()">Publish</button>
-        <button type="button" name="button" class="btn btn-info" onclick="draftco()">Draft</button>
-        <br><br><br>
+        @error('content')
+        <span class="text-danger">{{ $message }}</span>
+        @enderror
+
       </div>
+      <button type="button" name="button" class="btn btn-info" onclick="publishco()">Publish</button>
+        <button type="button" name="button" class="btn btn-info" onclick="draftco()">Draft</button>
     </div>
   </div>
 </div>
@@ -75,7 +94,11 @@
   </script>
 
 
-
+@else
+<script type="text/javascript">
+    window.location = "{{ route('login') }}";
+</script>
+@endauth
 
 
 @endsection

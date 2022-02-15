@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('drafts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('editor_id');
-            $table->string('image');
-            $table->string('content');
+            $table->string('image')->nullable();
+            $table->string('content')->nullable();
             $table->timestamps();
         });
     }

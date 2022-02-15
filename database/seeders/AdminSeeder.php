@@ -17,19 +17,18 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-      User::create(
-          [
+      User::create([
             'name' => 'Admin',
-            'email' => 'admin@gmail.com',
+            'email' => 'admin@convertium.com',
             'password' => Hash::make('123456789'),
             'level' => '1',
-          ],
-            [
-                'name' => 'Editor',
-                'email' => 'editor@gmail.com',
-                'password' => Hash::make('123456789'),
-                'level' => '3',
-                ]
-        );
+      ]);
+      
+      User::create([
+            'name' => 'Editor',
+            'email' => 'editor@convertium.com',
+            'password' => Hash::make('123456789'),
+            'level' => '3',
+      ]);
     }
 }

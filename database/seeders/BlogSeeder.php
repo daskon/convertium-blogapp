@@ -25,8 +25,8 @@ class BlogSeeder extends Seeder
                             <p>mnbvc</p>
                             <p>lkjhgfd</p>
                             <p>nbvtheztyx</p>',
-            ],
-            [
+            ]);
+            Blog::create([
                 'title' => 'The secound',
                 'editor_id' => '2',
                 'image' => '1644807030.png',
@@ -35,8 +35,8 @@ class BlogSeeder extends Seeder
                                 <p>;lkjhgf</p>
                                 <p>p;hgyf&nbsp;</p>
                                 <p>higyftrx</p>',
-            ],
-            [
+            ]);
+            Blog::create([
                 'title' => 'The Third',
                 'editor_id' => '2',
                 'image' => '1644816815.jpg',

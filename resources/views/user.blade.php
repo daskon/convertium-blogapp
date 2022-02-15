@@ -3,21 +3,12 @@
 @section('content')
 
 <div class="container">
-    <p class="btn btn-danger">The Admin aprovel is pending ......</p>
-  <div class="row">
-    <?php $ldate = date('Y-m-d'); ?>
-    @foreach($blogs as $blog)
-      @foreach($accepts as $ac)
-        @if($blog->id == $ac->blog_id && $ac->publish_date <= $ldate)
-          <div class="col-sm-4">
-            <img class="img-fluid" src="{{asset('images/'.$blog->image)}}" alt="{{$blog->title}}">
-            <h3>{{$blog->title}}</h3>
-            <a href="{{route('blog.show',$blog->id)}}" class="btn btn-info">View</a>
-          </div>
-        @endif
-      @endforeach
-    @endforeach
-  </div>
+    <div class="alert alert-warning d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+          Pending Admin Aproval
+        </div>
+      </div>
 </div>
 
 @endsection

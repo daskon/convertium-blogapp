@@ -1,6 +1,8 @@
 @extends('layouts.main')
 @section('content')
 
+@auth
+
 <div class="container">
     <div class="row">
       <div class="col-sm-12">
@@ -19,10 +21,15 @@
 
           <a href="{{route('draft.show',$draft->id)}}" class="btn btn-info">show</a>
           <a href="{{route('draft.edit',$draft->id)}}" class="btn btn-info">Edit</a>
+          <form method="post" action="{{route('draft.destroy',$draft->id)}}">
+            @method('delete')
+            @csrf
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
         </div>
         @endforeach
     </div>
-
+<br><br>
     <!-- view published blogs -->
     <div class="row">
       @foreach($blogs as $blog)
@@ -35,7 +42,7 @@
 
           @if($blog->id == $ac->blog_id)
             <p class="ap">Approved</p>
-            <p class="pb">Publish on {{$ac -> publish_date}}</p>
+            <p class="pb">Publish on {{$ac -> publish_date}} to {{$ac -> due_date}}</p>
             <?php $isex = 'yes'; ?>
             @break
           @else
@@ -48,6 +55,11 @@
         @endif
         <a href="{{route('blog.show',$blog->id)}}" class="btn btn-info">show</a>
         <a href="{{route('blog.edit',$blog->id)}}" class="btn btn-info">Edit</a>
+        <form method="post" action="{{route('blog.destroy',$blog->id)}}">
+            @method('delete')
+            @csrf
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
       </div>
       @endforeach
     </div>
@@ -68,5 +80,12 @@
           color:brown;
       }
   </style>
+
+  @else
+  <script type="text/javascript">
+    window.location = "{{ route('login') }}";
+</script>
+
+@endauth
 
 @endsection

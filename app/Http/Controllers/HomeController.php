@@ -1,57 +1,79 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Accept;
+use App\Models\Blog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
-{
-    // funtion to view welcome page
+{    
+
+    /**
+     * show all the blog post
+     *
+     * @return void
+     */
     public function welcome()
     {
-      $blogs = DB::select('select * from blogs');
-      $accepts = DB::select('select * from accepts');
+      $blogs = Blog::all();
+      $accepts = Accept::all();
       return view('welcome',compact('blogs','accepts'));
     }
 
-    // function to redirect user to there pages
+    /**
+     * function to redirect user to there pages based on the user level
+     *
+     * @return void
+     */
     public function index()
     {
-      $editors = DB::select('select * from editors');
 
-        if (Auth::user()->level == 1) {
+      if (Auth::user() == true) 
+      {
+        $editors = DB::select('select * from editors');
+
+        if (Auth::user()->level == 1) 
+        {
 
           $users = DB::table('users')->count();
           $userdata = DB::select('select * from users');
 
           return view('admin.home', compact('users','userdata'));
-        } else {
+        } 
+        else 
+        {
 
-                foreach ($editors as $e) {
-                    if (Auth::user()->id == $e->user_id && Auth::user()->level == 3) {
+          foreach ($editors as $e) 
+          {
+              if (Auth::user()->id == $e->user_id && Auth::user()->level == 3) 
+              {
 
-                      return view('editor.home');
-                    }
-                    elseif(Auth::user()->id == $e->user_id && Auth::user()->level == 3){
-                        $blogs = DB::select('select * from blogs');
-                      $accepts = DB::select('select * from accepts');
-                      return view('user',compact('blogs','accepts'));
-                    }
+                return view('editor.home');
+              }
+              elseif(Auth::user()->id == $e->user_id && Auth::user()->level == 3)
+              {
 
-                }
-                $blogs = DB::select('select * from blogs');
-                      $accepts = DB::select('select * from accepts');
-                      return view('user',compact('blogs','accepts'));
-
-
-
+                return view('user');
+              }
+          }
+            return view('user');
         }
+      }
+      else
+      {
+        return redirect()->route('login');
+      }
     }
 
-
-    public function viewblog()
+    
+    /**
+     * view blog post
+     *
+     * @return void
+     */
+    public function viewBlogPost()
     {
         $id = Auth::user()->id;
         $blogs = DB::select('select * from blogs where editor_id = ?',[$id]);
@@ -59,6 +81,4 @@ class HomeController extends Controller
         $drafts = DB::select('select * from drafts where editor_id = ?',[$id]);
         return view('editor.view',compact('blogs','accepts','drafts'));
     }
-
-
 }

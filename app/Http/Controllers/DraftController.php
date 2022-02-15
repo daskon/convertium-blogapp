@@ -10,60 +10,36 @@ use Illuminate\Support\Facades\DB;
 
 class DraftController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * store the blog post as a draft
      *
      * @param  \App\Http\Requests\StoreDraftRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreDraftRequest $request)
     {
-        //upload file
-      $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-            ]);
+    
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+        ]);
 
-            $imageName = time().'.'.$request->image->extension();
+        $imageName = time().'.'.$request->image->extension();
 
-            $request->image->move(public_path('images'), $imageName);
+        $request->image->move(public_path('images'), $imageName);
 
-        //store data to the database
+        $obj = new Draft();
+        $obj->title = $request->title;
+        $obj->editor_id = $request->editor_id;
+        $obj->image = $imageName;
+        $obj->content = $request->editor;
+        $obj->save();
 
-        $blog = new Draft();
-
-        $blog->title = $request->title;
-        $blog->editor_id = $request->editor_id;
-        $blog->image = $imageName;
-        $blog->content = $request->editor;
-
-
-        $blog->save();
-
-        return back();
+        return back()->with('success','Your Blog Post has Draft.');
     }
 
     /**
-     * Display the specified resource.
+     * view draft blog post
      *
      * @param  \App\Models\Draft  $draft
      * @return \Illuminate\Http\Response
@@ -75,7 +51,7 @@ class DraftController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * show edit draft blog post form
      *
      * @param  \App\Models\Draft  $draft
      * @return \Illuminate\Http\Response
@@ -95,15 +71,12 @@ class DraftController extends Controller
      */
     public function update(UpdateDraftRequest $request,$id)
     {
-        $blog = Draft::find($id);
-
-      $blog->title = $request->title;
-      $blog->editor_id = $request->editor_id;
-
-      $blog->content = $request->editor;
-
-
-      $blog->update();
+        
+      $obj = Draft::find($id);
+      $obj->title = $request->title;
+      $obj->editor_id = $request->editor_id;
+      $obj->content = $request->editor;
+      $obj->update();
 
       return back();
     }
@@ -114,8 +87,9 @@ class DraftController extends Controller
      * @param  \App\Models\Draft  $draft
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Draft $draft)
+    public function destroy($id)
     {
-        //
+        Draft::where('id',$id)->delete();
+        return back();
     }
 }

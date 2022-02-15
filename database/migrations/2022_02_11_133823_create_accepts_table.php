@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('blog_id');
             $table->string('publish_date');
+            $table->string('due_date');
             $table->timestamps();
         });
     }

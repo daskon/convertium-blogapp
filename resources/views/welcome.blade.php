@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Simple Blog</title>
+    <title>Convertium Blog</title>
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <script src="{{asset('js/bootstrap.bundle.min.js')}}" charset="utf-8"></script>
   </head>
@@ -11,7 +11,7 @@
 
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
       <div class="container">
-        <a class="navbar-brand" href="#">Simple Blog</a>
+        <a class="navbar-brand" href="#">Convertium Blog</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -43,11 +43,11 @@
         <?php $ldate = date('Y-m-d'); ?>
         @foreach($blogs as $blog)
           @foreach($accepts as $ac)
-            @if($blog->id == $ac->blog_id && $ac->publish_date <= $ldate)
+            @if($blog->id == $ac->blog_id && $ac->publish_date <= $ldate && $ac->due_date >= $ldate)
               <div class="col-sm-4">
                 <img class="img-fluid" src="{{asset('images/'.$blog->image)}}" alt="{{$blog->title}}">
                 <h3>{{$blog->title}}</h3>
-                <a href="{{route('blog.show',$blog->id)}}" class="btn btn-info">view</a>
+                <a href="{{route('blog.show',$blog->id)}}" class="btn btn-info">View More</a>
               </div>
             @endif
           @endforeach

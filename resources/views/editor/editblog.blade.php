@@ -2,6 +2,8 @@
 
 @section('content')
 
+@auth
+
   @foreach($blogs as $blog)
 <div class="container">
   <div class="row">
@@ -25,6 +27,8 @@
         <div class="mb-3 mt-3">
           <label for="banner" class="form-label">Banner Image :</label>
           <input type="file" class="form-control" id="image" placeholder="Select a file" name="image">
+          <input type="hidden" name="image" value="{{$blog->image}}">
+          <img src="{{asset('images/'.$blog->image)}}" alt="" width="300px">
         </div>
 
         <textarea name="editor" id="editor" style="visibility: hidden;"></textarea>
@@ -69,7 +73,11 @@
   }
 </script>
 
-
+@else
+<script type="text/javascript">
+    window.location = "{{ route('login') }}";
+</script>
+@endauth
 
 
 

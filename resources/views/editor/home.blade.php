@@ -2,56 +2,63 @@
 
 @section('content')
 
-<div class="container">
+@auth
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Welcome {{ Auth::user()->name}} (Blog Editor)</h1>
+    </div>
+
   <div class="row">
-    <div class="col-sm-12">
+    
         <!--  Card  -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Create blog
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="{{route('blog.create')}}" class="btn btn-info">Create Blog</a> </div>
-                            <div class="row no-gutters align-items-center">
-
-
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Create Blog Post
                             </div>
                         </div>
-                        <div class="col-auto">
-
+                        <div class="col-sm">
+                            <a href="{{route('blog.create')}}" class="btn btn-success btn-sm">Create</a> 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
-
-    <!--  Card  -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Blog Posts
+        <!--  Card  -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                All Blog Posts
+                            </div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="{{url('viewblog')}}" class="btn btn-info">View All Blogs</a> </div>
-                        <div class="row no-gutters align-items-center">
-
-
+                        <div class="col-sm">
+                            <a href="{{url('viewblog')}}" class="btn btn-success btn-sm">View</a>
                         </div>
                     </div>
-                    <div class="col-auto">
-
                 </div>
             </div>
         </div>
-    </div>
-  </div>
+        
 </div>
 
+</div>
 
+@else
+<script type="text/javascript">
+    window.location = "{{ route('login') }}";
+</script>
+
+@endauth
 
 
 @endsection

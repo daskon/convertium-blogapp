@@ -14,21 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 Route::get('/','HomeController@welcome');
-
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
   return view('wel');
 })->name('dashboard');
 
 Route::get('home','HomeController@index');
-Route::get('viewblog','HomeController@viewblog');
-
-
+Route::get('viewblog','HomeController@viewBlogPost');
 
 Route::resource('editor','EditorController');
 Route::resource('blog','BlogController');

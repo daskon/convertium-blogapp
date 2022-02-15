@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Accept;
 use App\Models\Draft;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class BlogController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of blog posts on front-end
      *
      * @return \Illuminate\Http\Response
      */
@@ -21,11 +20,12 @@ class BlogController extends Controller
     {
         $blogs = DB::select('select * from blogs');
         $accepts = DB::select('select * from accepts');
-        return view('admin.listblog',compact('blogs','accepts'));
+        $drafts = DB::select('select * from drafts');
+        return view('admin.listblog',compact('blogs','accepts','drafts'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new blog post.
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,47 +35,59 @@ class BlogController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * create editor blog post
      *
      * @param  \App\Http\Requests\StoreBlogRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreBlogRequest $request)
     {
-      //upload file
-      $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-        ]);
+        if ($request->hasfile('image'))
+        {
+            //validate input data
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+                'editor' => 'required|string|max:1000',
+            ]);
 
-        $imageName = time().'.'.$request->image->extension();
+            $imageName = time().'.'.$request->image->extension();
 
-        $request->image->move(public_path('images'), $imageName);
+            $request->image->move(public_path('images'), $imageName);
+        }
+        else
+        {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'image' => 'required',
+                'editor' => 'required|string|max:1000',
+            ]);
 
-      //store data to the database
+            $imageName = $request->img;
+        }
 
-      $blog = new Blog;
+        $obj = new Blog;
 
-      $blog->title = $request->title;
-      $blog->editor_id = $request->editor_id;
-      $blog->image = $imageName;
-      $blog->content = $request->editor;
+        $obj->title = $request->title;
+        $obj->editor_id = $request->editor_id;
+        $obj->image = $imageName;
+        $obj->content = $request->editor;
+        $obj->save();
 
-
-      $blog->save();
-
-      $id = $request->draft_id;
+        $id = $request->draft_id;
 
         if ($id != "") {
-            $deleted = Draft::where('id',$id)->delete();
+            Draft::where('id',$id)->delete();
             return back();
         }
 
-
-      return back();
+        return back()
+            ->with('success','You have successfully created the blog post.')
+            ->with('image',$imageName);
     }
 
     /**
-     * Display the specified resource.
+     * show blog post publicly
      *
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
@@ -87,7 +99,7 @@ class BlogController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * edit publish post
      *
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
@@ -99,7 +111,7 @@ class BlogController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update blog post contents
      *
      * @param  \App\Http\Requests\UpdateBlogRequest  $request
      * @param  \App\Models\Blog  $blog
@@ -107,29 +119,49 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, $id)
     {
-      $blog = Blog::find($id);
+        if ($request->hasfile('image'))
+        {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+                'editor' => 'required|string|max:1000',
+            ]);
 
-      $blog->title = $request->title;
-      $blog->editor_id = $request->editor_id;
+            $imageName = time().'.'.$request->image->extension();
 
-      $blog->content = $request->editor;
+            $request->image->move(public_path('images'), $imageName);
+        }
+        else
+        {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'image' => 'required',
+                'editor' => 'required|string|max:1000',
+            ]);
 
+            $imageName = $request->img;
+        }
 
-      $blog->update();
+        $blog = Blog::find($id);
+        $blog->title = $request->title;
+        $blog->editor_id = $request->editor_id;
+        $blog->image = $imageName;
+        $blog->content = $request->editor;
+        $blog->update();
 
-      return back();
+        return back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * delete blog posts
      *
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-      $deleted = Blog::where('id',$id)->delete();
-      $deleted = Accept::where('blog_id',$id)->delete();
+      Blog::where('id',$id)->delete();
+      Accept::where('blog_id',$id)->delete();
       return back();
     }
 }
